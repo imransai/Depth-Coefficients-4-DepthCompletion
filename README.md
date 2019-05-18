@@ -10,6 +10,6 @@ The following gives a overall illustration of our work.
 
 # Video Demo
 Here is a video demonstration of the work in a typical KITTI sequence:
-![Depth Coefficients](https://gifs.com/gif/sp2-wbv2-wVrP0M)
+![Depth Coefficients](https://j.gifs.com/wVrP0M.gif)
 
 We will upload the code and the pretrained models soon for the benefit of the community. Stay tuned!
