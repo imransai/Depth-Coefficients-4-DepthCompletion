@@ -3,7 +3,7 @@
 
 This work is featured in CVPR 2019.
 # Overview
-![Image]()
+![Image](/images/overview_cropped.png)
 
 # Video Demo
 Here is a video demonstration of the work in a typical KITTI sequence:
