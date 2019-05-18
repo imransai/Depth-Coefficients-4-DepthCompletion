@@ -1,37 +1,12 @@
-## Welcome to GitHub Pages
+## Depth Coefficients for Depth Completion
+*Saif Imran* *Yunfei Long* *Xiaoming Liu* *Daniel Morris*
 
-You can use the [editor on GitHub](https://github.com/imransai/imransai.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This work is featured in CVPR 2019.
+# Overview
+![Image]()
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Video Demo
+Here is a video demonstration of the work in a typical KITTI sequence:
+[![Depth Coefficients](http://img.youtube.com/vi/ghDFX2hQbYY/0.jpg)](http://www.youtube.com/watch?v=ghDFX2hQbYY "Depth Coefficients for Depth Completion")
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/imransai/imransai.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+We will upload the code and the pretrained models soon for the benefit of the community. Stay tuned!
