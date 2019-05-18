@@ -10,6 +10,6 @@ The following gives a overall illustration of our work.
 
 # Video Demo
 Here is a video demonstration of the work in a typical KITTI sequence:
-[![DC Video](https://j.gifs.com/wVrP0M.gif)](http://www.youtube.com/watch?v=ghDFX2hQbYY "DC Video")
+[![DC Video](https://gifs.com/gif/sp2-wbv2-wVrP0M)](http://www.youtube.com/watch?v=ghDFX2hQbYY "DC Video")
 
 We will upload the code and the pretrained models soon for the benefit of the community. Stay tuned!
