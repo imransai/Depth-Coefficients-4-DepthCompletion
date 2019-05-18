@@ -11,5 +11,6 @@ The following gives a overall illustration of our work.
 # Video Demo
 Here is a video demonstration of the work in a typical KITTI sequence:
 ![DC_Video](/images/DC.gif)
+[Youtube Video] (https://www.youtube.com/watch?v=ghDFX2hQbYY)
 
 We will upload the code and the pretrained models soon for the benefit of the community. Stay tuned!
