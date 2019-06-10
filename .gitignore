@@ -1,2 +1,5 @@
-/Codes
 /Data
+/Codes/__pycache__
+/Codes/TestSet_Results/
+/Codes/checkpoint_dir/
+/Codes/log_dir/
