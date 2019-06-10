@@ -14,7 +14,26 @@ Our system comprises of 32Gb RAM, a 1080 Ti GPU Card and Ubuntu 16.10 as OS. Due
 The codebase was developed and tested in Ubuntu 16.10, Tensorflow 1.10 and CUDA 9.0. Please see the tensorflow [installation] (https://www.tensorflow.org/install/pip) for details. 
 
 # Dataset Generation
-We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion) for training our network. KITTI provides Velodyne HDL-64E as raw lidar scans as input and provide semi-dense annotated ground-truth data for training (see the paper [Sparsity Invariant CNNs](https://arxiv.org/abs/1708.06500)). But what makes our case interesting is how we subsample the 64R raw lidar scans to make it 32R, 16R lidar-scans respectively. We needed to split the lidar rows based on azimuth angle in lidar space (see our paper), so we required KITTI raw dataset to access the raw lidar scans, skip the desired number of rows and then project the lidar scans in the image plane. We provide a sample matlab code that can do the data-mapping between KITTI's depth completion and raw dataset and generate the subsampled data which is used for training eventually.
+We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion) for training our network. KITTI depth completion dataset provides Velodyne HDL-64E as raw lidar scans as input and provide semi-dense annotated ground-truth data for training (see the paper [Sparsity Invariant CNNs](https://arxiv.org/abs/1708.06500)). But what makes our case interesting is how we subsample the 64R raw lidar scans to make it 32R, 16R lidar-scans respectively. We needed to split the lidar rows based on azimuth angle in lidar space (see our paper), so we required [KITTI raw dataset](http://www.cvlibs.net/datasets/kitti/raw_data.php) to access the raw lidar scans, skip the desired number of rows and then project the lidar scans in the image plane. We provide a sample matlab code that can do the data-mapping between KITTI's depth completion and raw dataset and generate the subsampled data which is used for training eventually. So the steps to prepare the subsampled data are:
+
+1. Download the KITTI depth completion dataset, importantly the annotated ground-truth data, and the manually selected validation and test dataset.
+2. Download the KITTI raw dataset. For downloading all raw data from the KITTI websites, go to Data/KITTI_Raw and execute it from the command line:
+
+./raw_data_downloader.sh
+
+It will download the zip files and extract them into a coherent data structure: Each folder contains all sequences recorded at a single day, including the calibration files for that day.
+
+The overall directory structure should look the following:
+```
+.
+Depth-Coefficients-from-Single-Image
+| Data
+  |__KITTI_Depth
+     |__train
+     |__val
+     |__val_shortened
+  |__KITTI_Raw   
+```
 
 # Network
 We use the following configuration to train the network. In this implementation, we used a Resnet-18 network since the model can be fit easily in a single GPU. However in the paper, we used Resnet-34, and we found the bigger network to improve performance slightly. Note that in this implementation, we also found that by adding a simple auxiliary loss at the encoder network, the performance improves compared to the reported performance in the paper. So we suggest the readers to stick to the new training strategy when training the network. 
