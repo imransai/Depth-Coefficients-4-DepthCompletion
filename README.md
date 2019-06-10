@@ -11,7 +11,15 @@ The following gives a overall illustration of our work.
 # Implementation Details
 Our system comprises of 32Gb RAM, a 1080 Ti GPU Card and Ubuntu 16.10 as OS. Due to limited GPU memory, we needed to train the KITTI data with patches compared to full sized images of KITTI. 
 # Prerequisities
-The codebase was developed and tested in Ubuntu 16.10, Tensorflow 1.10 and CUDA 9.0. Please see the tensorflow [installation] (https://www.tensorflow.org/install/pip) for details. 
+The codebase was developed and tested in Ubuntu 16.10, Tensorflow 1.10, python 3.5, CUDA 9.0 and CuDNN 7.0. Please see the tensorflow [installation] (https://www.tensorflow.org/install/pip) for details. Make sure you have the right versions of Cuda 9.0 and CudNN available. Then steps are:
+
+1. Create conda environment by `conda create -n tensorflow1.10_py3.5 python=3.5`
+
+2. Activate the environment by `source activate tensorflow1.10_py3.5`
+
+3. Install the tensorflow-gpu version by `pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.10.1-cp35-cp35m-linux_x86_64.whl`
+
+4. Pip install the required libraries: scipy, imageio, matplotlib, easydict, sklearn, scikit-image
 
 # Dataset Generation
 We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion) for training our network. KITTI depth completion dataset provides Velodyne HDL-64E as raw lidar scans as input and provide semi-dense annotated ground-truth data for training (see the paper [Sparsity Invariant CNNs](https://arxiv.org/abs/1708.06500)). But what makes our case interesting is how we subsample the 64R raw lidar scans to make it 32R, 16R lidar-scans respectively. We needed to split the lidar rows based on azimuth angle in lidar space (see our paper), so we required [KITTI raw dataset](http://www.cvlibs.net/datasets/kitti/raw_data.php) to access the raw lidar scans, skip the desired number of rows and then project the lidar scans in the image plane. We provide a sample matlab code that can do the data-mapping between KITTI's depth completion and raw dataset and generate the subsampled data which is used for training eventually. So the steps to prepare the subsampled data are:
@@ -23,9 +31,9 @@ We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti
 
 It will download the zip files and extract them into a coherent data structure: Each folder contains all sequences recorded at a single day, including the calibration files for that day.
 
-3. Instead of using velodyne_raw as provided by KITTI Depth Completion data, prepare subsampled data as input to the network. The subsampled data should comprise of 0x0_nSKips (64R Lidar Scans), 1x0_nSKips (32R Lidar Scans), 4x0_nSKips (16R Lidar Scans) respectively. Run the *trainval_origpadgenerator_subsample.m* in ./Codes/Matlab_Scripts. You might need to change the absolute path in the provided scripts. You can prepare the subsampled data for both 'train' and 'val' set using the script just by changing the `dataset_type` to `train` or `val` in the script.
+3. Instead of using velodyne_raw as provided by KITTI Depth Completion data, prepare subsampled data as input to the network. The subsampled data typically comprises of 0x0_nSKips (64R Lidar Scans), 1x0_nSKips (32R Lidar Scans), 4x0_nSKips (16R Lidar Scans) respectively. Run the *trainval_origpadgenerator_subsample.m* in ./Codes/Matlab_Scripts. You might need to change the absolute path in the provided scripts. You can prepare the subsampled data for both 'train' and 'val' set using the script just by changing the `dataset_type` to `train` or `val` in the script.
 
-To generate the shortened validation set, please use the *generate_valshortened.m* script.
+The validation shortened dataset are the manually selected validation set provided by KITTI. To generate the subsampled data of selected validation set, please use the *generate_valshortened.m* script.  
 
 The overall directory structure should look the following:
 ```
@@ -66,6 +74,7 @@ Depth-Coefficients-from-Single-Image
                 2011_09_26_drive_0002_sync_image_02_0000000005.png
             |__groundtruth
                 2011_09_26_drive_0002_sync_image_02_0000000005.png
+      |__val_selection_cropped                
   |__KITTI_Raw
       |__2011_09_26
           |__2011_09_26_001_sync
@@ -79,7 +88,7 @@ Depth-Coefficients-from-Single-Image
 ```
 
 # Network
-We use the following configuration to train the network. In this implementation, we used a Resnet-18 network since the model can be fit easily in a single GPU. However in the paper, we used Resnet-34, and we found the bigger network to improve performance slightly. Note that in this implementation, we also found that by adding a simple auxiliary loss at the encoder network, the performance improves compared to the reported performance in the paper. So we suggest the readers to stick to the new training strategy when training the network. 
+We use the following configuration to train the network. In this implementation, we used a Resnet-18 network since the model can be fit easily in a single GPU. However in the paper, we used Resnet-34, and we found the bigger network to improve performance by 2-3 cm. Note that in this implementation, we also found that by adding a simple auxiliary loss at the encoder network, the performance improves compared to the reported performance in the paper. So we suggest the readers to stick to the new training strategy when training the network. 
 ![Image](/images/DC_Network.png)
 
 
