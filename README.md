@@ -9,7 +9,7 @@ The following gives a overall illustration of our work.
 ![Image](/images/overview_cropped.png)
 
 # Implementation Details
-
+Our system comprises of 32Gb RAM, a 1080 Ti GPU Card and Ubuntu 16.10 as OS. Due to limited GPU memory, we needed to train the KITTI data with patches compared to full sized images of KITTI. 
 # Prerequisities
 The codebase was developed and tested in Ubuntu 16.10, Tensorflow 1.10 and CUDA 9.0. Please see the tensorflow [installation] (https://www.tensorflow.org/install/pip) for details. 
 
