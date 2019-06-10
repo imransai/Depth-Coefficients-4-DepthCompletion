@@ -16,7 +16,7 @@ The following gives a overall illustration of our work.
 
 # Network
 We use the following configuration to train the network. Note in this implementation, we found that by adding a simple auxiliary loss at the encoder network, the performance improves compared to the reported performance in the paper. So we suggest the readers to stick to the new training strategy when training the network. 
-![Image](/images/DC_network.png)
+![Image](/images/DC_Network.png)
 
 
 # Pretrained Models
