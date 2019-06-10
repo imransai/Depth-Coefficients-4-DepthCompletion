@@ -17,11 +17,14 @@ The codebase was developed and tested in Ubuntu 16.10, Tensorflow 1.10 and CUDA 
 We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion) for training our network. KITTI depth completion dataset provides Velodyne HDL-64E as raw lidar scans as input and provide semi-dense annotated ground-truth data for training (see the paper [Sparsity Invariant CNNs](https://arxiv.org/abs/1708.06500)). But what makes our case interesting is how we subsample the 64R raw lidar scans to make it 32R, 16R lidar-scans respectively. We needed to split the lidar rows based on azimuth angle in lidar space (see our paper), so we required [KITTI raw dataset](http://www.cvlibs.net/datasets/kitti/raw_data.php) to access the raw lidar scans, skip the desired number of rows and then project the lidar scans in the image plane. We provide a sample matlab code that can do the data-mapping between KITTI's depth completion and raw dataset and generate the subsampled data which is used for training eventually. So the steps to prepare the subsampled data are:
 
 1. Download the KITTI depth completion dataset, importantly the annotated ground-truth data, and the manually selected validation and test dataset.
-2. Download the KITTI raw dataset. For downloading all raw data from the KITTI websites, go to Data/KITTI_Raw and execute it from the command line:
+2. Download the KITTI raw dataset. For downloading all raw data from the KITTI websites, go to ./Data/KITTI_Raw and execute it from the command line:
 
 ./raw_data_downloader.sh
 
 It will download the zip files and extract them into a coherent data structure: Each folder contains all sequences recorded at a single day, including the calibration files for that day.
+3. Instead of using velodyne_raw as provided by KITTI Depth Completion data, prepare subsampled data as input to the network. The subsampled data should comprise of 0x0_nSKips (64R Lidar Scans), 1x0_nSKips (32R Lidar Scans), 4x0_nSKips (16R Lidar Scans) respectively. Run the *trainval_origpadgenerator_subsample.m* in ./Codes/Matlab_Scripts. You might need to change the absolute path in the provided scripts. You can prepare the subsampled data for both 'train' and 'val' set using the script just by changing the `dataset_type` to `train` or 'val' in the script.
+
+To generate the shortened validation set, please use the *generate_valshortened.m* script.
 
 The overall directory structure should look the following:
 ```
@@ -30,9 +33,48 @@ Depth-Coefficients-from-Single-Image
 | Data
   |__KITTI_Depth
      |__train
+        |__2011_09_26_drive_0001_sync
+            |__color
+                |__image_02
+                    0000000005.png
+                |__image_03
+            |__proj_depth
+                |__groundtruth
+                    |__image_02
+                        0000000005.png
+                |__0x0_nSKips
+                    |__image_02
+                        0000000005.png
+                    |__image_03
+                |__4x0_nSKips
+                    |__image_02
+                        0000000005.png
+                    |__image_03
+                |__...
+        |__...
      |__val
+        |__2011_09_26_drive_0002_sync            
+        |__...
      |__val_shortened
-  |__KITTI_Raw   
+        |__image
+            2011_09_26_drive_0002_sync_image_02_0000000005.png
+        |__proj_depth
+            |__0x0_nSKips
+                2011_09_26_drive_0002_sync_image_02_0000000005.png
+            |__4x0_nSKips
+                2011_09_26_drive_0002_sync_image_02_0000000005.png
+            |__groundtruth
+                2011_09_26_drive_0002_sync_image_02_0000000005.png
+  |__KITTI_Raw
+      |__2011_09_26
+          |__2011_09_26_001_sync
+              |__...
+              |__image_02
+              |__image_03
+              |__oxts
+              |__velodyne_points
+          |__...
+      |__...          
 ```
 
 # Network
