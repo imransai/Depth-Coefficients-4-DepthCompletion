@@ -22,7 +22,7 @@ We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti
 ./raw_data_downloader.sh
 
 It will download the zip files and extract them into a coherent data structure: Each folder contains all sequences recorded at a single day, including the calibration files for that day.
-3. Instead of using velodyne_raw as provided by KITTI Depth Completion data, prepare subsampled data as input to the network. The subsampled data should comprise of 0x0_nSKips (64R Lidar Scans), 1x0_nSKips (32R Lidar Scans), 4x0_nSKips (16R Lidar Scans) respectively. Run the *trainval_origpadgenerator_subsample.m* in ./Codes/Matlab_Scripts. You might need to change the absolute path in the provided scripts. You can prepare the subsampled data for both 'train' and 'val' set using the script just by changing the `dataset_type` to `train` or 'val' in the script.
+3. Instead of using velodyne_raw as provided by KITTI Depth Completion data, prepare subsampled data as input to the network. The subsampled data should comprise of 0x0_nSKips (64R Lidar Scans), 1x0_nSKips (32R Lidar Scans), 4x0_nSKips (16R Lidar Scans) respectively. Run the *trainval_origpadgenerator_subsample.m* in ./Codes/Matlab_Scripts. You might need to change the absolute path in the provided scripts. You can prepare the subsampled data for both 'train' and 'val' set using the script just by changing the `dataset_type` to `train` or `val` in the script.
 
 To generate the shortened validation set, please use the *generate_valshortened.m* script.
 
