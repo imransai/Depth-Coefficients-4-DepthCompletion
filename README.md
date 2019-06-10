@@ -8,7 +8,7 @@ The site contains Tensorflow implementation of our work "Depth Coefficients for 
 The following gives a overall illustration of our work. 
 ![Image](/images/overview_cropped.png)
 
-## Implementation Details
+# Implementation Details
 
 # Tensorflow installation
 
