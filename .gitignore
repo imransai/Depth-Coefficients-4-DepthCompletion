@@ -1,4 +1,5 @@
-/Data/
+/Data/KITTI_Depth/
+/Data/KITTI_Raw/
 /Codes/__pycache__
 /Codes/TestSet_Results/
 /Codes/checkpoint_dir/
