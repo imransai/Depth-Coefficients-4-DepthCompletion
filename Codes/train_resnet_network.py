@@ -719,8 +719,31 @@ class ResNetModel(object):
 
         return train_ops
        
-
     
+    
+    def define_trainop_steplr_AdamOptimizer(self,loss, learningrate):
+        
+        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+        global_step = tf.Variable(0, trainable = False)
+
+        with tf.control_dependencies(update_ops):
+            opt = tf.train.AdamOptimizer(learningrate)
+            grads = opt.compute_gradients(loss)            
+        
+        
+        train_op = opt.apply_gradients(grads, global_step = global_step)
+
+        with tf.name_scope('summary'):            
+
+            # Add histograms for gradients.
+            for grad, var in grads:
+                if grad is not None and 'batch_normalization' not in var.name:
+                    
+                    tf.summary.histogram(var.op.name + '/gradients', grad)
+                    tf.summary.histogram(var.name,var)                    
+        
+        return train_op
+
     def define_trainop_fixedlr_AdamOptimizer(self,loss):
         
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)

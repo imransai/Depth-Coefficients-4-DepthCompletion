@@ -285,8 +285,8 @@ else:
     tf.summary.scalar('Validation-Loss',totloss_valscalar)
     tf.summary.scalar('Reg-Losses',reg_loss)
 
-
-train_op = resnet_model.define_trainop_fixedlr_AdamOptimizer(totloss_trainscalar)
+learning_rate = tf.placeholder(tf.float32, [])
+train_op = resnet_model.define_trainop_steplr_AdamOptimizer(totloss_trainscalar, learning_rate)
 restore_var = [var for var in tf.global_variables()]
     
 saver = tf.train.Saver(var_list = tf.global_variables(), max_to_keep = 10)
@@ -297,7 +297,8 @@ config.gpu_options.allow_growth = True
 init = tf.global_variables_initializer()
 
 
-
+lr_step = np.array([0.0001*0.5, 0.00001, 0.00001*0.5, 0.000001], dtype = np.float32)
+xsition_step = np.array([75*100, 105*100, 115*100], dtype = np.int64)
 
 summary_op = tf.summary.merge_all()
 "Make Directory"
@@ -348,10 +349,20 @@ with tf.Session(config = config) as sess:
         for step in range(int(learningparams.numbatches_per_epoch)):
             start_time = time.time()
             #feed_dict = {step_ph: curr_step}
-            
+
+            if curr_step <= xsition_step[0]:
+                lr = lr_step[0]
+            elif curr_step > xsition_step[0] and curr_step <= xsition_step[1]:
+                lr = lr_step[1]                                    
+            elif curr_step > xsition_step[1] and curr_step <= xsition_step[2]:
+                lr = lr_step[2]
+            elif curr_step > xsition_step[2]:
+                lr = lr_step[3]
+
+
             if curr_step % SAVE_SUMMARY_EVERY == 0:
                 
-                train_loss, trainmaince, val_loss, valmaince, __, summary = sess.run([totloss_trainscalar,trainmain_loss, totloss_valscalar,valmain_loss, train_op, summary_op])
+                train_loss, trainmaince, val_loss, valmaince, __, summary = sess.run([totloss_trainscalar,trainmain_loss, totloss_valscalar,valmain_loss, train_op, summary_op], feed_dict = {learning_rate: lr})
                 
                 summary_writer.add_summary(summary,curr_step)
                 duration = time.time() - start_time
@@ -361,7 +372,7 @@ with tf.Session(config = config) as sess:
                 curr_step = curr_step + 1
 
             else:
-                __ = sess.run(train_op)
+                __ = sess.run(train_op, feed_dict = {learning_rate: lr})
                 curr_step = curr_step + 1
         print('Epoch no. {:d} completed\n'.format(epoch))
 
