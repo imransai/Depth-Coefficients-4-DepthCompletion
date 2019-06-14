@@ -88,7 +88,7 @@ Depth-Coefficients-from-Single-Image
 ```
 
 # Network
-We use the following configuration to train the network. In this implementation, we used a Resnet-18 network since the model can be fit easily in a single GPU. However in the paper, we used Resnet-34, and we found the bigger network to improve performance by 2-3 cm. Note that in this implementation, we also found that by adding a simple auxiliary loss at the encoder network, the performance improves compared to the reported performance in the paper. So we suggest the readers to stick to the new training strategy when training the network. 
+We use the following configuration to train the network. In this implementation, we used a Resnet-18 network and batch-size of 3 since the model can be fit easily in a single GPU. However in the paper, we used Resnet-34, and we found the bigger network to improve performance by 2-3 cms. Note that in this implementation, we also found that by adding a simple auxiliary loss at the encoder network, the performance improves compared to the reported performance in the paper. So we suggest the readers to stick to the new training strategy when training the network. 
 ![Image](/images/DC_Network.png)
 
 # Training
