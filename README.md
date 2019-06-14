@@ -25,7 +25,7 @@ The codebase was developed and tested in Ubuntu 16.10, Tensorflow 1.10, python 3
 We use the [KITTI depth completion dataset](http://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion) for training our network. KITTI depth completion dataset provides Velodyne HDL-64E as raw lidar scans as input and provide semi-dense annotated ground-truth data for training (see the paper [Sparsity Invariant CNNs](https://arxiv.org/abs/1708.06500)). But what makes our case interesting is how we subsample the 64R raw lidar scans to make it 32R, 16R lidar-scans respectively. We needed to split the lidar rows based on azimuth angle in lidar space (see our paper), so we required [KITTI raw dataset](http://www.cvlibs.net/datasets/kitti/raw_data.php) to access the raw lidar scans, skip the desired number of rows and then project the lidar scans in the image plane. We provide a sample matlab code that can do the data-mapping between KITTI's depth completion and raw dataset and generate the subsampled data which is used for training eventually. So the steps to prepare the subsampled data are:
 
 1. Download the KITTI depth completion dataset, importantly the annotated ground-truth data, and the manually selected validation and test dataset.
-2. Download the KITTI raw dataset. Create 'KITTI_Raw' directory in ./Data/ and copy the raw_data_downloader script provided in that folder. For downloading all raw data from the KITTI websites, just run the .sh script from the command line:
+2. Download the KITTI raw dataset. Create 'KITTI_Raw' directory in ./Data/ and copy the raw_data_downloader script provided in that folder. For downloading all raw data from the KITTI websites, then cd to the 'KITTI_Raw' directory run the .sh script from the command line:
 
 ./raw_data_downloader.sh
 
@@ -110,7 +110,7 @@ Here is a video demonstration of the work in a typical KITTI sequence:
 ![DC_Video](/images/DC.gif)
 [Youtube Video](https://www.youtube.com/watch?v=ghDFX2hQbYY)
 
-We will upload the code and the pretrained models soon for the benefit of the community. Stay tuned!
+
 
 ## Citations
 If you use our method and code in your work, please cite the following:
